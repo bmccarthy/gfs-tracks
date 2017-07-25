@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit {
     const message = 'Most accurate position found (Accuracy: ' + e.accuracy + ')';
     console.log('found accurate position: ', message);
 
-    this.map.setView(e.latlng, 12);
+    this.map.setView(e.latlng, 18);
     L.marker(e.latlng).addTo(this.map);
   }
 
