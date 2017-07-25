@@ -27,10 +27,13 @@ export class HomeComponent implements OnInit {
 
     this.map.on('accuratepositionfound', (e) => this.onAccuratePositionFound(e));
     this.map.on('accuratepositionerror', (e) => this.onAccuratePositionError(e));
-    this.map.findAccuratePosition({
-      maxWait: 10000,
-      desiredAccuracy: 20
-    });
+
+    setTimeout(() => {
+      this.map.findAccuratePosition({
+        maxWait: 10000,
+        desiredAccuracy: 20
+      });
+    }, (3000));
 
     // this.map.on('locationerror', (e) => this.onLocationError(e));
     // this.map.on('locationfound', (e) => this.onLocationFound(e));
