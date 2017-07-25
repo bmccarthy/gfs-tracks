@@ -28,20 +28,22 @@ export class HomeComponent implements OnInit {
     this.map.on('accuratepositionfound', (e) => this.onAccuratePositionFound(e));
     this.map.on('accuratepositionerror', (e) => this.onAccuratePositionError(e));
 
-    setTimeout(() => {
-      this.map.findAccuratePosition({
-        maxWait: 10000,
-        desiredAccuracy: 20
-      });
-    }, (3000));
+    setInterval(() => this.getPosition(), 5000);
 
     // this.map.on('locationerror', (e) => this.onLocationError(e));
     // this.map.on('locationfound', (e) => this.onLocationFound(e));
     // this.map.locate({ setView: true, maxZoom: 16 });
   }
 
+  getPosition() {
+    this.map.findAccuratePosition({
+      maxWait: 5000,
+      desiredAccuracy: 20
+    });
+  }
+
   onAccuratePositionError(e) {
-    console.error(e);
+    console.log('error getting position', e);
   }
   onAccuratePositionProgress(e) {
     const message = 'Progressing … (Accuracy: ' + e.accuracy + ')';
