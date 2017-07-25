@@ -25,11 +25,34 @@ export class HomeComponent implements OnInit {
       accessToken: accessToken
     }).addTo(this.map);
 
-    this.map.on('locationerror', (e) => this.onLocationError(e));
-    this.map.on('locationfound', (e) => this.onLocationFound(e));
+    this.map.on('accuratepositionfound', (e) => this.onAccuratePositionFound(e));
+    this.map.on('accuratepositionerror', (e) => this.onAccuratePositionError(e));
+    this.map.findAccuratePosition({
+      maxWait: 10000,
+      desiredAccuracy: 20
+    });
 
-    this.map.locate({ setView: true, maxZoom: 16 });
+    // this.map.on('locationerror', (e) => this.onLocationError(e));
+    // this.map.on('locationfound', (e) => this.onLocationFound(e));
+    // this.map.locate({ setView: true, maxZoom: 16 });
   }
+
+  onAccuratePositionError(e) {
+    console.error(e);
+  }
+  onAccuratePositionProgress(e) {
+    const message = 'Progressing … (Accuracy: ' + e.accuracy + ')';
+    console.log(message);
+  }
+
+  onAccuratePositionFound(e) {
+    const message = 'Most accurate position found (Accuracy: ' + e.accuracy + ')';
+    console.log('found accurate position: ', message);
+
+    this.map.setView(e.latlng, 12);
+    L.marker(e.latlng).addTo(this.map);
+  }
+
 
   onLocationError(e) {
     alert(e.message);
