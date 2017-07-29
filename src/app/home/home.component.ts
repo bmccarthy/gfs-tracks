@@ -9,6 +9,7 @@ declare var L: any;
 })
 export class HomeComponent implements OnInit {
   private map: any;
+  private latlng: any;
 
   constructor() { }
 
@@ -45,6 +46,7 @@ export class HomeComponent implements OnInit {
   onAccuratePositionError(e) {
     console.log('error getting position', e);
   }
+
   onAccuratePositionProgress(e) {
     const message = 'Progressing … (Accuracy: ' + e.accuracy + ')';
     console.log(message);
@@ -54,13 +56,18 @@ export class HomeComponent implements OnInit {
     const message = 'Most accurate position found (Accuracy: ' + e.accuracy + ')';
     console.log('found accurate position: ', message);
 
-    this.map.setView(e.latlng, 18);
+    this.latlng = e.latlng;
     L.marker(e.latlng).addTo(this.map);
   }
 
-
   onLocationError(e) {
     alert(e.message);
+  }
+
+  zoomToLocation() {
+    if (this.latlng) {
+      this.map.setView(this.latlng, 18);
+    }
   }
 
   onLocationFound(e) {
